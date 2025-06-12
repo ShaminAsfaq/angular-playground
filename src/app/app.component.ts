@@ -23,27 +23,40 @@ import { map, shareReplay } from 'rxjs/operators';
     MatButtonModule
   ],
   template: `
-    <div class="app-container">
-      <mat-toolbar color="primary" class="toolbar">
-        <button mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <span>Angular Boilerplate</span>
-      </mat-toolbar>
+      <div class="app-container">
+          <mat-toolbar color="primary" class="toolbar flex items-center">
+              <ng-container *ngIf="isHandset$ | async; else desktopMenu">
+                  <button mat-icon-button *ngIf="!sidenav.opened" (click)="sidenav.toggle()">
+                      <mat-icon>menu</mat-icon>
+                  </button>
+                  <button mat-icon-button *ngIf="sidenav.opened" (click)="sidenav.close()">
+                      <span class="text-2xl">✕</span>
+                  </button>
+              </ng-container>
+              <ng-template #desktopMenu>
+                  <button mat-icon-button (click)="sidenav.toggle()">
+                      <mat-icon>menu</mat-icon>
+                  </button>
+              </ng-template>
+              <span class="ml-2 flex-1">Angular Boilerplate</span>
+          </mat-toolbar>
 
-      <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav #sidenav
-          [mode]="(isHandset$ | async) ? 'over' : 'side'"
-          [opened]="!(isHandset$ | async)"
-          class="sidenav">
-          <app-left-nav></app-left-nav>
-        </mat-sidenav>
+          <mat-sidenav-container class="sidenav-container">
+              <mat-sidenav #sidenav
+                           [mode]="(isHandset$ | async) ? 'over' : 'side'"
+                           [opened]="!(isHandset$ | async)"
+                           class="sidenav">
+                  <div class="relative w-full h-full">
 
-        <mat-sidenav-content class="content">
-          <router-outlet></router-outlet>
-        </mat-sidenav-content>
-      </mat-sidenav-container>
-    </div>
+                      <app-left-nav></app-left-nav>
+                  </div>
+              </mat-sidenav>
+
+              <mat-sidenav-content class="content">
+                  <router-outlet></router-outlet>
+              </mat-sidenav-content>
+          </mat-sidenav-container>
+      </div>
   `,
   styles: [`
     .app-container {
