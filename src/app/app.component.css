@@ -1,0 +1,16 @@
+.app-layout {
+  display: flex;
+  height: 100vh; /* Full height layout */
+}
+
+app-left-nav {
+  width: 250px;
+  background-color: #f4f4f4;
+  border-right: 1px solid #ddd;
+}
+
+.main-content {
+  flex: 1;
+  padding: 16px;
+  overflow: auto;
+}
