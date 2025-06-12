@@ -228,8 +228,8 @@
                 <div class="card-body">
                     <h2 class="h5 mb-3">Choose your alerts:</h2>
                     <div class="d-flex flex-column gap-3">
-                        <ngb-alert *ngFor="let alert of alerts; let i = index" [type]="alert.type" (closed)="close(alert)" class="d-flex align-items-center mb-0 alert-hover-pointer" [attr.selected]="alert.checked ? true : null">
-                            <input type="checkbox" class="form-check-input me-2 cursor-pointer" [id]="'alert-checkbox-' + i" [(ngModel)]="alert.checked">
+                        <ngb-alert *ngFor="let alert of alerts; let i = index" [type]="alert.type" (closed)="close(alert)" (click)="toggleAlert(alert, $event)" class="d-flex align-items-center mb-0 alert-hover-pointer" [attr.selected]="alert.checked ? true : null">
+                            <input type="checkbox" class="form-check-input me-2 cursor-pointer" [id]="'alert-checkbox-' + i" [checked]="alert.checked">
                             <label class="mb-0 w-100 cursor-pointer" [for]="'alert-checkbox-' + i">{{ alert.message }}</label>
                         </ngb-alert>
                         <button type="button" class="btn btn-primary" (click)="reset()">Reset</button>

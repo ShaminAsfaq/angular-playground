@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {NgForOf} from '@angular/common';
+import { Store } from '@ngrx/store';
+import { updateGlobalState } from '../store/global.actions';
 
 interface AlertItem {
     type: string;
@@ -29,11 +31,21 @@ export class HomeComponent {
 
     alertsRaw: AlertItem[] = this.alerts;
 
+    constructor(private store: Store) {}
+
     reset() {
         this.alerts = Array.from(this.alertsRaw);
     }
 
     close(alert: AlertItem) {
         this.alerts = this.alerts.filter(a => a !== alert);
+    }
+
+    toggleAlert(alert: AlertItem, event: Event) {
+        alert.checked = !alert.checked;
+        this.store.dispatch(updateGlobalState({ key: 'alert_list', value: alert }));
+        if (event) {
+            event.stopPropagation();
+        }
     }
 }
