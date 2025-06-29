@@ -42,8 +42,15 @@ export class HomeComponent {
     }
 
     toggleAlert(alert: AlertItem, event: Event) {
-        alert.checked = !alert.checked;
-        this.store.dispatch(updateGlobalState({ key: 'alert_list', value: alert }));
+        this.alerts = this.alerts.map(a =>
+            a === alert ? { ...a, checked: !a.checked } : a
+        )
+        const updatedAlert = this.alerts.find(a => a.message === alert.message);
+        if (updatedAlert) {
+            this.store.dispatch(updateGlobalState({ key: 'alert_list', value: updatedAlert }));
+        }
+        // alert.checked = !alert.checked;
+        // this.store.dispatch(updateGlobalState({ key: 'alert_list', value: alert }));
         if (event) {
             event.stopPropagation();
         }
